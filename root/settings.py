@@ -135,3 +135,11 @@ ALGORITHM = 'HS256'
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24
 
 GOOGLE_CLIENT_ID = '200713471818-6lofe2fe752t8hmh0na62h8ufbmg8clh.apps.googleusercontent.com'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('oauth.services.auth_backend.AuthBackend','rest_framework_simplejwt.authentication.JWTAuthentication'),
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+    ], 
+}

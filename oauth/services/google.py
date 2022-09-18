@@ -4,7 +4,7 @@ from oauth import serializers
 from google.oauth2 import id_token
 from google.auth.transport import requests
 
-from oauth.models import AuthUser
+from oauth.models import CustomUser
 from . import base_auth
 
 
@@ -16,5 +16,5 @@ def check_google_auth(google_user: serializers.GoogleAuth) -> dict:
     except ValueError:
         raise AuthenticationFailed(code=403, detail='Bad token Google')
 
-    user, _ = AuthUser.objects.get_or_create(email=google_user['email'])
+    user, _ = CustomUser.objects.get_or_create(email=google_user['email'])
     return base_auth.create_token(user.id)

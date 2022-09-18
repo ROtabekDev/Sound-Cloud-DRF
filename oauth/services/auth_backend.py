@@ -5,7 +5,7 @@ import jwt
 from django.conf import settings
 from rest_framework import authentication, exceptions
 
-from oauth.models import AuthUser
+from oauth.models import CustomUser
 
 
 class AuthBackend(authentication.BaseAuthentication):
@@ -44,8 +44,8 @@ class AuthBackend(authentication.BaseAuthentication):
             raise exceptions.AuthenticationFailed('Token expired.')
 
         try:
-            user = AuthUser.objects.get(id=payload['user_id'])
-        except AuthUser.DoesNotExist:
+            user = CustomUser.objects.get(id=payload['user_id'])
+        except CustomUser.DoesNotExist:
             raise exceptions.AuthenticationFailed('No user matching this token was found.')
 
         return user, None

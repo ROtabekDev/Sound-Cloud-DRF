@@ -1,10 +1,18 @@
 from django.contrib import admin
-from .models import AuthUser, Follower, SocialLink
+from .models import CustomUser, UserProfile, Follower, SocialLink
  
-@admin.register(AuthUser)
-class AuthUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'email', 'display_name', 'join_date')
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'username', 'email')
     list_display_links = ('email',)
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('email', 'display_name', 'join_date')
+    list_display_links = ('email',)
+
+    def email(self, obj):
+        return obj.user.email
 
 
 @admin.register(Follower)

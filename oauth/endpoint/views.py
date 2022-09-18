@@ -18,7 +18,7 @@ class UserView(viewsets.ModelViewSet):
 class AuthorView(viewsets.ReadOnlyModelViewSet):
     """Mualliflar ro`yhati
     """
-    queryset = models.AuthUser.objects.all()
+    queryset = models.AuthUser.objects.all().prefetch_related('social_links')
     serializer_class = serializers.AuthorSerializer
 
 class SocialLinkView(viewsets.ModelViewSet):

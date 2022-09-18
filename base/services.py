@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 def get_path_upload_avatar(instance, file):
     """Media fayl manzili, format: (media)/avatar/user_id/photo.jpg
     """
-    return f'avatar/{instance.id}/{file}'
+    return f'avatar/{instance.pk}/{file}'
 
 def validate_size_image(file_obj):
     """Faylning hajmini tekshirish

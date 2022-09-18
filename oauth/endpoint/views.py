@@ -1,5 +1,6 @@
 from rest_framework import viewsets, parsers, permissions
 from .. import serializers, models
+from base.permissions import IsAuthor
 
 class UserView(viewsets.ModelViewSet):
     """User uchun view
@@ -19,3 +20,15 @@ class AuthorView(viewsets.ReadOnlyModelViewSet):
     """
     queryset = models.AuthUser.objects.all()
     serializer_class = serializers.AuthorSerializer
+
+class SocialLinkView(viewsets.ModelViewSet):
+    """CRUD
+    """
+    serializer_class = serializers.SocialLinkSerializer
+    permission_classes = [IsAuthor]
+
+    def get_queryset(self):
+        return self.request.user.social_links.all()
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

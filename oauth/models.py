@@ -1,5 +1,5 @@
 from django.core.validators import FileExtensionValidator
-from django.db import models
+from django.db import models 
 
 from base.services import get_path_upload_avatar, validate_size_image
  
@@ -26,8 +26,8 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField('Username', max_length=50, unique=True, null=True, blank=True, default='')
-    email = models.EmailField('Email', unique=True, null=True, blank=True)  
+    username = models.CharField('Username', unique=True, error_messages={'unique':'Bu username mavjud.'}, max_length=50, null=True, blank=True)
+    email = models.EmailField('Email',error_messages={'unique':'Bu email mavjud.'}, unique=True, null=True, blank=True)  
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False) 
     is_staff = models.BooleanField(default=False) 

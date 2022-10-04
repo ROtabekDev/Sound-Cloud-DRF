@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'drf_yasg',
 
-    'oauth'
+    'oauth',
+    'audio_library'
 ]
 
 MIDDLEWARE = [

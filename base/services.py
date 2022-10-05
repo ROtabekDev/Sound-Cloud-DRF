@@ -1,4 +1,5 @@
 from django.core.exceptions import ValidationError
+import os
 
 def get_path_upload_avatar(instance, file):
     """Media fayl manzili, format: (media)/avatar/user_id/photo.jpg
@@ -31,3 +32,9 @@ def validate_size_image(file_obj):
     megabyte_limit = 2
     if file_obj.size > megabyte_limit * 1024 * 1024:
         raise ValidationError(f"{megabyte_limit}MB dan oshmasligi kerak")
+
+def delete_old_file(path_file):
+    """Eski faylini o'chirish
+    """
+    if os.path.exists(path_file):
+        os.remove(path_file)

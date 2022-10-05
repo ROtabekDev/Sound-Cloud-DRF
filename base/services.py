@@ -4,25 +4,25 @@ import os
 def get_path_upload_avatar(instance, file):
     """Media fayl manzili, format: (media)/avatar/user_id/photo.jpg
     """
-    return f'avatar/user_{instance.pk}/{file}'
+    return f'avatar/user_{instance.user.id}/{file}'
 
 
 def get_path_upload_cover_album(instance, file):
     """Media fayl manzili, format: (media)/album/user_id/photo.jpg
     """
-    return f'album/user_{instance.pk}/{file}'
+    return f'album/user_{instance.user.id}/{file}'
 
 
 def get_path_upload_cover_playlist(instance, file):
     """Media fayl manzili, format: (media)/playlist/user_id/photo.jpg
     """
-    return f'playlist/user_{instance.pk}/{file}'
+    return f'playlist/user_{instance.user.id}/{file}'
 
 
 def get_path_upload_track(instance, file):
     """Audio fayl manzili, format: (media)/track/user_id/audio.mp3
     """
-    return f'track/user_{instance.pk}/{file}'
+    return f'track/user_{instance.user.id}/{file}'
 
 
 

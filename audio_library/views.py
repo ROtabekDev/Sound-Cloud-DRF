@@ -6,6 +6,7 @@ from . import models
 from . import serializers
 
 from base.permissions import IsAuthor
+from base.classes import MixedSerializer
 
 class GenreListAPIView(generics.ListAPIView):
     queryset = models.Genre.objects.all()
@@ -46,3 +47,23 @@ class PublicAlbumView(generics.ListAPIView):
 
     def get_queryset(self):
         return models.Album.objects.filter(user__id=self.kwargs.get('pk'), private=False)
+
+class TrackView(MixedSerializer, viewsets.ModelViewSet):
+    """CRUD Track
+    """
+    parser_classes = (parsers.MultiPartParser,)
+    permission_classes = [IsAuthor]
+    serializer_class = serializers.CreateAuthorTrackSerializer
+    serializer_class_by_action = {
+        'list': serializers.AuthorTrackSerializer
+    }
+
+    def get_queryset(self):
+        return models.Track.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def perform_destroy(self, instance):
+        delete_old_file(instance.file.path)
+        instance.delete()

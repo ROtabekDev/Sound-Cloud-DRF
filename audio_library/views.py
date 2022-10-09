@@ -1,4 +1,4 @@
-from rest_framework import generics, viewsets, parsers
+from rest_framework import generics, viewsets, parsers, views
 
 from base.services import delete_old_file
 
@@ -7,6 +7,14 @@ from . import serializers
 
 from base.permissions import IsAuthor
 from base.classes import MixedSerializer,  Pagination
+
+from django.shortcuts import get_object_or_404
+
+import os
+
+from django.http import FileResponse
+from django.http import Http404
+
 
 class GenreListAPIView(generics.ListAPIView):
     queryset = models.Genre.objects.all()
@@ -99,3 +107,22 @@ class AuthorTrackListView(generics.ListAPIView):
 
     def get_queryset(self):
         return models.Track.objects.filter(user__id=self.kwargs.get('pk'))
+
+    
+class StreamingFileView(views.APIView):
+
+    def set_play(self, track):
+        track.plays_count += 1
+        track.save()
+
+    def get(self, request, pk):
+        track = get_object_or_404(models.Track, id=pk)
+
+        if os.path.exists(track.file.path):
+            self.set_play(track)
+            return FileResponse(open(track.file.path, 'rb'), filename=track.file.name) 
+        else:
+            return Http404
+
+
+

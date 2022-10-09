@@ -6,7 +6,7 @@ from . import models
 from . import serializers
 
 from base.permissions import IsAuthor
-from base.classes import MixedSerializer
+from base.classes import MixedSerializer,  Pagination
 
 class GenreListAPIView(generics.ListAPIView):
     queryset = models.Genre.objects.all()
@@ -87,3 +87,15 @@ class PlayListView(MixedSerializer, viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         delete_old_file(instance.cover.path)
         instance.delete()
+
+class TrackListView(generics.ListAPIView):
+    queryset = models.Track.objects.all()
+    serializer_class = serializers.AuthorTrackSerializer
+    pagination_class = Pagination
+
+class AuthorTrackListView(generics.ListAPIView):
+    serializer_class = serializers.AuthorTrackSerializer
+    pagination_class = Pagination
+
+    def get_queryset(self):
+        return models.Track.objects.filter(user__id=self.kwargs.get('pk'))

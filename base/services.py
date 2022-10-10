@@ -25,6 +25,12 @@ def get_path_upload_track(instance, file):
     return f'track/user_{instance.user.id}/{file}'
 
 
+def get_path_upload_cover_track(instance, file):
+    """Audio fayl manzili, format: (media)/track/cover/user_id/audio.mp3
+    """
+    return f'track/cover/user_{instance.user.id}/{file}'
+
+
 
 def validate_size_image(file_obj):
     """Faylning hajmini tekshirish

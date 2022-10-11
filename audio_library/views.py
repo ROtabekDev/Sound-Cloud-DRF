@@ -1,10 +1,9 @@
 from rest_framework import generics, viewsets, parsers, views
-
-from base.services import delete_old_file
-
+from django_filters.rest_framework import DjangoFilterBackend
 from . import models
 from . import serializers
 
+from base.services import delete_old_file
 from base.permissions import IsAuthor
 from base.classes import MixedSerializer,  Pagination
 
@@ -101,10 +100,14 @@ class TrackListView(generics.ListAPIView):
     queryset = models.Track.objects.filter(album__private=False, private=False)
     serializer_class = serializers.AuthorTrackSerializer
     pagination_class = Pagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['title', 'album__name', 'genre__name']
 
 class AuthorTrackListView(generics.ListAPIView):
     serializer_class = serializers.AuthorTrackSerializer
     pagination_class = Pagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['title', 'album__name', 'genre__name']
 
     def get_queryset(self):
         return models.Track.objects.filter(
